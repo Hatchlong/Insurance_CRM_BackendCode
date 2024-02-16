@@ -11,6 +11,19 @@ const RtoStateSchema=new Schema({
     description:{
         type:String
     },
+    address:{
+        type:String,
+        required:true
+    },
+    country:{
+        type:String
+    },
+    state:{
+        type:String
+    },
+    city:{
+        type:String
+    },
     isLock:{
         type:String
     },

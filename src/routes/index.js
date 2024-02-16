@@ -11,6 +11,8 @@ const uploadRouter = require('../controllers/upload/file_upload');
 
 const agentRouter=require('../controllers/master/agent/agent');
 
+const financialRouter=require('../controllers/master/financialPeriod/financialPeriod');
+
 const policyPlanRouter=require('../controllers/master/policy-plan/policyPlan')
 
 const applyPolicyRouter=require('../controllers/applyPolicy/applyPolicy')
@@ -44,6 +46,12 @@ let routes = app => {
   router.put('/api/master/agent/update/:id',agentRouter.updateAgentDetail)
   router.put('/api/master/agent/update', agentRouter.updatedManyInventoryDetails)
   router.get('/api/master/agent/getAll/:skip/:limit',agentRouter.getAllInventoryDetailsPage)
+
+  //Financial Period Router Path
+  router.post('/api/master/financial/create',financialRouter.createFinancial)
+  router.get('/api/master/financial/getAll',financialRouter.getAllFinancialDetail)
+  router.get('/api/master/financial/get/:id',financialRouter.singleFinancialDetail)
+  router.put('/api/master/financial/update/:id',financialRouter.updateFinancialDetail)
 
   //Policy Plan Router Path
   router.post('/api/master/policyPlan/create',policyPlanRouter.createPolicyPlan)
