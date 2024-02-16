@@ -11,13 +11,9 @@ const uploadRouter = require('../controllers/upload/file_upload');
 
 const agentRouter = require('../controllers/master/agent/agent');
 
-<<<<<<< HEAD
 const financialRouter=require('../controllers/master/financialPeriod/financialPeriod');
 
 const policyPlanRouter=require('../controllers/master/policy-plan/policyPlan')
-=======
-const policyPlanRouter = require('../controllers/master/policy-plan/policyPlan')
->>>>>>> 767009e5e34909947033e194544e636f41cf905f
 
 const applyPolicyRouter = require('../controllers/applyPolicy/applyPolicy')
 
