@@ -126,10 +126,77 @@ const updatePolicyPlanDetail = async (req, res, next) => {
     }
 }
 
+// Pagination API
+const getAllpolicyPlanDetailsPage = async (req, res, next) => {
+    try {
+        const policyPlanCount = await policyPlanData.find({ isActive: 'O' }).count();
+        const policyPlanDetails = await policyPlanData.find({ isActive: 'O' }).skip(req.params.skip).limit(req.params.limit).sort('-1').lean();
+        if (policyPlanDetails) {
+            res.status(200).json({
+                status: '1',
+                message: 'Policy Plan processed successfully',
+                data: policyPlanDetails,
+                count:policyPlanCount
+            })
+        } else {
+            res.status(200).json({
+                status: '0',
+                message: 'Policy Plan processed unSuccessfully',
+                data: []
+            })
+        }
+    } catch (error) {
+        next(error)
+        res.status(500).json({
+            status: '0',
+            message: 'Policy Plan  processed unSuccessfully',
+            data: []
+        })
+    }
+}
+
+
+
+
+const updatedManyPolicyPlanDetails = async (req, res, next) => {
+    try {
+
+        const bulkUpdateOps = req.body.map(record => ({
+            updateOne: {
+                filter: { _id: record._id },
+                update: { $set: record },
+            },
+        }));
+
+        const result = await policyPlanData.bulkWrite(bulkUpdateOps);
+        if (result) {
+            res.status(200).json({
+                status: '1',
+                message: 'Policy Plan updated successfully',
+            })
+        } else {
+            res.status(200).json({
+                status: '0',
+                message: 'Policy Plan updated unSuccessfully'
+            })
+        }
+    } catch (error) {
+        console.log(error)
+        next(error)
+        res.status(500).json({
+            status: '0',
+            message: 'Policy Plan updated unSuccessfully'
+        })
+    }
+}
+
+
 module.exports = {
     createPolicyPlan: createPolicyPlan,
     getAllPolicyPlan: getAllPolicyPlan,
     singlePolicyPlanDetail: singlePolicyPlanDetail,
-    updatePolicyPlanDetail: updatePolicyPlanDetail
+    updatePolicyPlanDetail: updatePolicyPlanDetail,
+    getAllpolicyPlanDetailsPage:getAllpolicyPlanDetailsPage,
+    updatedManyPolicyPlanDetails:updatedManyPolicyPlanDetails
 
 }

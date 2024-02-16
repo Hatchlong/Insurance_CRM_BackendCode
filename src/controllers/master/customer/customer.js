@@ -59,11 +59,11 @@ const getAllCustomerDetails = async (req, res, next) => {
             const productSalesDetails = await customerNomineeModel.find({}).sort('-1').lean();
 
             customerDetails.forEach((obj1) => {
-                const matchingPlantData = customerVehicleDetails.find((obj2) => obj2.customerId === obj1.customerId);
-                const matchingSalesDetails = productSalesDetails.find((obj2) => obj2.customerId === obj1.customerId);
-                if (matchingPlantData || matchingSalesDetails) {
-                    obj1.vehicleDetails = matchingPlantData.vehicleDetails;
-                    obj1.nomineeDetails = matchingSalesDetails.nomineeDetails;
+                const matchingVehicleData = customerVehicleDetails.find((obj2) => obj2.customerId === obj1.customerId);
+                const matchingNomineeDetails = productSalesDetails.find((obj2) => obj2.customerId === obj1.customerId);
+                if (matchingVehicleData || matchingNomineeDetails) {
+                    obj1.vehicleDetails = matchingVehicleData.vehicleDetails;
+                    obj1.nomineeDetails = matchingNomineeDetails.nomineeDetails;
                 }
             });
             res.status(200).json({
