@@ -128,12 +128,78 @@ const updateApplyPolicyDetail = async (req, res, next) => {
     }
 }
 
+// Pagination API
+const getAllappPolicyDetailsPage = async (req, res, next) => {
+    try {
+        const appPolicyCount = await applyPolicyModel.find({ isActive: 'O' }).count();
+        const appPolicyDetails = await applyPolicyModel.find({ isActive: 'O' }).skip(req.params.skip).limit(req.params.limit).sort('-1').lean();
+        if (appPolicyDetails) {
+            res.status(200).json({
+                status: '1',
+                message: 'Vehicle Category processed successfully',
+                data: appPolicyDetails,
+                count:appPolicyCount
+            })
+        } else {
+            res.status(200).json({
+                status: '0',
+                message: 'Vehicle Category processed unSuccessfully',
+                data: []
+            })
+        }
+    } catch (error) {
+        next(error)
+        res.status(500).json({
+            status: '0',
+            message: 'Vehicle Category  processed unSuccessfully',
+            data: []
+        })
+    }
+}
+
+
+
+
+const updatedManyApplyPolicyDetails = async (req, res, next) => {
+    try {
+
+        const bulkUpdateOps = req.body.map(record => ({
+            updateOne: {
+                filter: { _id: record._id },
+                update: { $set: record },
+            },
+        }));
+
+        const result = await applyPolicyModel.bulkWrite(bulkUpdateOps);
+        if (result) {
+            res.status(200).json({
+                status: '1',
+                message: 'Vehicle Category updated successfully',
+            })
+        } else {
+            res.status(200).json({
+                status: '0',
+                message: 'Vehicle Category updated unSuccessfully'
+            })
+        }
+    } catch (error) {
+        console.log(error)
+        next(error)
+        res.status(500).json({
+            status: '0',
+            message: 'Vehicle Category updated unSuccessfully'
+        })
+    }
+}
+
 
 
 module.exports = {
     createApplyPolicyData: createApplyPolicyData,
     getAllApplyPolicyData: getAllApplyPolicyData,
     singleApplyPolicydetail: singleApplyPolicydetail,
-    updateApplyPolicyDetail: updateApplyPolicyDetail
+    updateApplyPolicyDetail: updateApplyPolicyDetail,
+    getAllappPolicyDetailsPage:getAllappPolicyDetailsPage,
+    updatedManyApplyPolicyDetails:updatedManyApplyPolicyDetails
 
 }

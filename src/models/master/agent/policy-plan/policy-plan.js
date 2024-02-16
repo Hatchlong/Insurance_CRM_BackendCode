@@ -21,7 +21,7 @@ const PolicyplanSchema = new Schema({
         required: true
     },
     tenor: {
-        type: String,
+        type: Number,
         required: true
     },
     companyName: {

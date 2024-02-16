@@ -117,9 +117,75 @@ const updateRtoStateDetail = async (req, res, next) => {
     }
 }
 
+// Pagination API
+const getAllrtoStateDataDetailsPage = async (req, res, next) => {
+    try {
+        const rtoStateDataCount = await rtoStateData.find({ isActive: 'O' }).count();
+        const rtoStateDataDetails = await rtoStateData.find({ isActive: 'O' }).skip(req.params.skip).limit(req.params.limit).sort('-1').lean();
+        if (rtoStateDataDetails) {
+            res.status(200).json({
+                status: '1',
+                message: 'RTO State processed successfully',
+                data: rtoStateDataDetails,
+                count:rtoStateDataCount
+            })
+        } else {
+            res.status(200).json({
+                status: '0',
+                message: 'RTO State processed unSuccessfully',
+                data: []
+            })
+        }
+    } catch (error) {
+        next(error)
+        res.status(500).json({
+            status: '0',
+            message: 'RTO State  processed unSuccessfully',
+            data: []
+        })
+    }
+}
+
+
+
+
+const updatedManyRtoStateDetails = async (req, res, next) => {
+    try {
+
+        const bulkUpdateOps = req.body.map(record => ({
+            updateOne: {
+                filter: { _id: record._id },
+                update: { $set: record },
+            },
+        }));
+
+        const result = await rtoStateData.bulkWrite(bulkUpdateOps);
+        if (result) {
+            res.status(200).json({
+                status: '1',
+                message: 'RTO State updated successfully',
+            })
+        } else {
+            res.status(200).json({
+                status: '0',
+                message: 'RTO State updated unSuccessfully'
+            })
+        }
+    } catch (error) {
+        console.log(error)
+        next(error)
+        res.status(500).json({
+            status: '0',
+            message: 'RTO State updated unSuccessfully'
+        })
+    }
+}
+
 module.exports = {
     createRtoState: createRtoState,
     getAllRtoStateDetail: getAllRtoStateDetail,
     singleRtoStateDetail: singleRtoStateDetail,
-    updateRtoStateDetail:updateRtoStateDetail
+    updateRtoStateDetail:updateRtoStateDetail,
+    getAllrtoStateDataDetailsPage:getAllrtoStateDataDetailsPage,
+    updatedManyRtoStateDetails:updatedManyRtoStateDetails
 }

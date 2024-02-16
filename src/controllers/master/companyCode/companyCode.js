@@ -122,9 +122,74 @@ const updateCompanyCodeDetail = async (req, res, next) => {
     }
 }
 
+// Pagination API
+const getAllcompanyCodeDetailsPage = async (req, res, next) => {
+    try {
+        const companyCodeCount = await companyCodeData.find({ isActive: 'O' }).count();
+        const companyCodeDetails = await companyCodeData.find({ isActive: 'O' }).skip(req.params.skip).limit(req.params.limit).sort('-1').lean();
+        if (companyCodeDetails) {
+            res.status(200).json({
+                status: '1',
+                message: 'Company Code processed successfully',
+                data: companyCodeDetails,
+                count:companyCodeCount
+            })
+        } else {
+            res.status(200).json({
+                status: '0',
+                message: 'Company Code processed unSuccessfully',
+                data: []
+            })
+        }
+    } catch (error) {
+        next(error)
+        res.status(500).json({
+            status: '0',
+            message: 'Company Code  processed unSuccessfully',
+            data: []
+        })
+    }
+}
+
+
+
+
+const updatedManyCompanyCodeDetails = async (req, res, next) => {
+    try {
+
+        const bulkUpdateOps = req.body.map(record => ({
+            updateOne: {
+                filter: { _id: record._id },
+                update: { $set: record },
+            },
+        }));
+
+        const result = await companyCodeData.bulkWrite(bulkUpdateOps);
+        if (result) {
+            res.status(200).json({
+                status: '1',
+                message: 'Company Code updated successfully',
+            })
+        } else {
+            res.status(200).json({
+                status: '0',
+                message: 'Company Code updated unSuccessfully'
+            })
+        }
+    } catch (error) {
+        console.log(error)
+        next(error)
+        res.status(500).json({
+            status: '0',
+            message: 'Company Code updated unSuccessfully'
+        })
+    }
+}
 module.exports = {
     createCompanyCode: createCompanyCode,
     getAllCompanyCodeDetail: getAllCompanyCodeDetail,
     singleCompanyCodeDetail: singleCompanyCodeDetail,
-    updateCompanyCodeDetail: updateCompanyCodeDetail
+    updateCompanyCodeDetail: updateCompanyCodeDetail,
+    getAllcompanyCodeDetailsPage:getAllcompanyCodeDetailsPage,
+    updatedManyCompanyCodeDetails:updatedManyCompanyCodeDetails
 }

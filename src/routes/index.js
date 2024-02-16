@@ -9,20 +9,22 @@ const authrRegisterRouter = require('../controllers/authr/register/register');
 const authrLoginRouter = require('../controllers/authr/login/login');
 const uploadRouter = require('../controllers/upload/file_upload');
 
-const agentRouter=require('../controllers/master/agent/agent');
+const agentRouter = require('../controllers/master/agent/agent');
 
-const policyPlanRouter=require('../controllers/master/policy-plan/policyPlan')
+const policyPlanRouter = require('../controllers/master/policy-plan/policyPlan')
 
-const applyPolicyRouter=require('../controllers/applyPolicy/applyPolicy')
+const applyPolicyRouter = require('../controllers/applyPolicy/applyPolicy')
 
-const companyCodeRouter=require('../controllers/master/companyCode/companyCode')
+const companyCodeRouter = require('../controllers/master/companyCode/companyCode')
 
-const vehicleRouter=require('../controllers/master/vehicleCategory/vehicleCategory');
+const vehicleRouter = require('../controllers/master/vehicleCategory/vehicleCategory');
 
-const rtoStateRouter=require('../controllers/master/rtoState/rtoState');
+const rtoStateRouter = require('../controllers/master/rtoState/rtoState');
 
 
 const masterCustomerRouters = require('../controllers/master/customer/customer');
+
+const masterVendorRouters = require('../controllers/master/vendor/vendor');
 
 
 let routes = app => {
@@ -38,44 +40,56 @@ let routes = app => {
   router.post('/api/auth/user/logout', authrLoginRouter.logoutUserDetails)
 
   //Agent Router Path
-  router.post('/api/master/agent/create',agentRouter.createAgent)
-  router.get('/api/master/agent/getAll',agentRouter.getAllAgentDetail)
-  router.get('/api/master/agent/get/:id',agentRouter.singleAgentDetail)
-  router.put('/api/master/agent/update/:id',agentRouter.updateAgentDetail)
+  router.post('/api/master/agent/create', agentRouter.createAgent)
+  router.get('/api/master/agent/getAll', agentRouter.getAllAgentDetail)
+  router.get('/api/master/agent/get/:id', agentRouter.singleAgentDetail)
+  router.put('/api/master/agent/update/:id', agentRouter.updateAgentDetail)
   router.put('/api/master/agent/update', agentRouter.updatedManyInventoryDetails)
-  router.get('/api/master/agent/getAll/:skip/:limit',agentRouter.getAllInventoryDetailsPage)
+  router.get('/api/master/agent/getAll/:skip/:limit', agentRouter.getAllInventoryDetailsPage)
 
   //Policy Plan Router Path
-  router.post('/api/master/policyPlan/create',policyPlanRouter.createPolicyPlan)
-  router.get('/api/master/policyPlan/getAll',policyPlanRouter.getAllPolicyPlan)
-  router.get('/api/master/policyPlan/get/:id',policyPlanRouter.singlePolicyPlanDetail)
-  router.put('/api/master/policyPlan/update/:id',policyPlanRouter.updatePolicyPlanDetail)
+  router.post('/api/master/policyPlan/create', policyPlanRouter.createPolicyPlan)
+  router.get('/api/master/policyPlan/getAll', policyPlanRouter.getAllPolicyPlan)
+  router.get('/api/master/policyPlan/get/:id', policyPlanRouter.singlePolicyPlanDetail)
+  router.put('/api/master/policyPlan/update/:id', policyPlanRouter.updatePolicyPlanDetail)
+  router.put('/api/setting/policyPlan/update', policyPlanRouter.updatedManyPolicyPlanDetails)
+  router.get('/api/setting/policyPlan/getAll/:skip/:limit', policyPlanRouter.getAllpolicyPlanDetailsPage)
 
   //Apply Policy Router Path
-  router.post('/api/applyPolicy/applyPolicy/create',applyPolicyRouter.createApplyPolicyData)
-  router.get('/api/applyPolicy/applyPolicy/getAll',applyPolicyRouter.getAllApplyPolicyData)
-  router.get('/api/applyPolicy/applyPolicy/get/:id',applyPolicyRouter.singleApplyPolicydetail)
-  router.put('/api/applyPolicy/applyPolicy/update/:id',applyPolicyRouter.updateApplyPolicyDetail)
+  router.post('/api/applyPolicy/applyPolicy/create', applyPolicyRouter.createApplyPolicyData)
+  router.get('/api/applyPolicy/applyPolicy/getAll', applyPolicyRouter.getAllApplyPolicyData)
+  router.get('/api/applyPolicy/applyPolicy/get/:id', applyPolicyRouter.singleApplyPolicydetail)
+  router.put('/api/applyPolicy/applyPolicy/update/:id', applyPolicyRouter.updateApplyPolicyDetail)
+  router.put('/api/applyPolicy/applyPolicy/update', applyPolicyRouter.updatedManyApplyPolicyDetails)
+  router.get('/api/applyPolicy/applyPolicy/getAll/:skip/:limit', applyPolicyRouter.getAllappPolicyDetailsPage)
 
 
   //Company Code Router Path
-  router.post('/api/setting/companyCode/create',companyCodeRouter.createCompanyCode)
-  router.get('/api/setting/companyCode/getAll',companyCodeRouter.getAllCompanyCodeDetail)
-  router.get('/api/setting/companyCode/get/:id',companyCodeRouter.singleCompanyCodeDetail)
-  router.put('/api/setting/companyCode/update/:id',companyCodeRouter.updateCompanyCodeDetail)
+  router.post('/api/setting/companyCode/create', companyCodeRouter.createCompanyCode)
+  router.get('/api/setting/companyCode/getAll', companyCodeRouter.getAllCompanyCodeDetail)
+  router.get('/api/setting/companyCode/get/:id', companyCodeRouter.singleCompanyCodeDetail)
+  router.put('/api/setting/companyCode/update/:id', companyCodeRouter.updateCompanyCodeDetail)
+  router.put('/api/setting/companyCode/update', companyCodeRouter.updatedManyCompanyCodeDetails)
+  router.get('/api/setting/companyCode/getAll/:skip/:limit', companyCodeRouter.getAllcompanyCodeDetailsPage)
 
 
   //RTO State Router Path
-  router.post('/api/setting/rtoState/create',rtoStateRouter.createRtoState)
-  router.get('/api/setting/rtoState/getAll',rtoStateRouter.getAllRtoStateDetail)
-  router.get('/api/setting/rtoState/get/:id',rtoStateRouter.singleRtoStateDetail)
-  router.put('/api/setting/rtoState/update/:id',rtoStateRouter.updateRtoStateDetail)
+  router.post('/api/setting/rtoState/create', rtoStateRouter.createRtoState)
+  router.get('/api/setting/rtoState/getAll', rtoStateRouter.getAllRtoStateDetail)
+  router.get('/api/setting/rtoState/get/:id', rtoStateRouter.singleRtoStateDetail)
+  router.put('/api/setting/rtoState/update/:id', rtoStateRouter.updateRtoStateDetail)
+  router.put('/api/setting/rtoState/update', rtoStateRouter.updatedManyRtoStateDetails)
+  router.get('/api/setting/rtoState/getAll/:skip/:limit', rtoStateRouter.getAllrtoStateDataDetailsPage)
+
 
   //Vehicle Router Path
-  router.post('/api/setting/vehicle/create',vehicleRouter.createVehicle)
-  router.get('/api/setting/vehicle/getAll',vehicleRouter.getAllVehicleDetail)
-  router.get('/api/setting/vehicle/get/:id',vehicleRouter.singleVehicleDetail)
-  router.put('/api/setting/vehicle/update/:id',vehicleRouter.updateVehicleDetail)
+  router.post('/api/setting/vehicle/create', vehicleRouter.createVehicle)
+  router.get('/api/setting/vehicle/getAll', vehicleRouter.getAllVehicleDetail)
+  router.get('/api/setting/vehicle/get/:id', vehicleRouter.singleVehicleDetail)
+  router.put('/api/setting/vehicle/update/:id', vehicleRouter.updateVehicleDetail)
+  router.put('/api/setting/vehicle/update', vehicleRouter.updatedManyVehicleCategoryDetails)
+  router.get('/api/setting/vehicle/getAll/:skip/:limit', vehicleRouter.getAllvehicleDataDetailsPage)
+
 
 
   // Customer Router Path
@@ -83,6 +97,12 @@ let routes = app => {
   router.get('/api/master/customerMaster/getAll', masterCustomerRouters.getAllCustomerDetails)
   router.get('/api/master/customerMaster/get/:id', masterCustomerRouters.singleCustomerDetails)
   router.put('/api/master/customerMaster/update/:id', masterCustomerRouters.updatedCustomerDetails)
+
+  // Vendor Router Path
+  router.post('/api/master/vendor/create', masterVendorRouters.createVendor)
+  router.get('/api/master/vendor/getAll', masterVendorRouters.getAllVendorDetails)
+  router.get('/api/master/vendor/get/:id', masterVendorRouters.singleVendorDetails)
+  router.put('/api/master/vendor/update/:id', masterVendorRouters.updatedVendorDetails)
 
 
   router.post('/api/upload', uploadRouter.upload)
