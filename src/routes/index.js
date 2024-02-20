@@ -23,6 +23,7 @@ const rtoStateRouter = require('../controllers/master/rtoState/rtoState');
 
 
 const masterCustomerRouters = require('../controllers/master/customer/customer');
+const customerImportRouter=require('../controllers/master/customer/customerImport')
 
 const masterVendorRouters = require('../controllers/master/vendor/vendor');
 
@@ -52,8 +53,8 @@ let routes = app => {
   router.get('/api/master/policyPlan/getAll', policyPlanRouter.getAllPolicyPlan)
   router.get('/api/master/policyPlan/get/:id', policyPlanRouter.singlePolicyPlanDetail)
   router.put('/api/master/policyPlan/update/:id', policyPlanRouter.updatePolicyPlanDetail)
-  router.put('/api/setting/policyPlan/update', policyPlanRouter.updatedManyPolicyPlanDetails)
-  router.get('/api/setting/policyPlan/getAll/:skip/:limit', policyPlanRouter.getAllpolicyPlanDetailsPage)
+  router.put('/api/master/policyPlan/update', policyPlanRouter.updatedManyPolicyPlanDetails)
+  router.get('/api/master/policyPlan/getAll/:skip/:limit', policyPlanRouter.getAllpolicyPlanDetailsPage)
 
   //Apply Policy Router Path
   router.post('/api/applyPolicy/applyPolicy/create', applyPolicyRouter.createApplyPolicyData)
@@ -97,12 +98,16 @@ let routes = app => {
   router.get('/api/master/customerMaster/getAll', masterCustomerRouters.getAllCustomerDetails)
   router.get('/api/master/customerMaster/get/:id', masterCustomerRouters.singleCustomerDetails)
   router.put('/api/master/customerMaster/update/:id', masterCustomerRouters.updatedCustomerDetails)
+  router.put('/api/master/customerMaster/update', customerImportRouter.updatedManyCustomerDetails)
+  router.get('/api/master/customerMaster/getAll/:skip/:limit', customerImportRouter.getAllcustomerDetailsPage)
 
   // Vendor Router Path
   router.post('/api/master/vendor/create', masterVendorRouters.createVendor)
   router.get('/api/master/vendor/getAll', masterVendorRouters.getAllVendorDetails)
   router.get('/api/master/vendor/get/:id', masterVendorRouters.singleVendorDetails)
   router.put('/api/master/vendor/update/:id', masterVendorRouters.updatedVendorDetails)
+  router.put('/api/master/vendor/update', masterVendorRouters.updatedManyVendorDetails)
+  router.get('/api/master/vendor/getAll/:skip/:limit', masterVendorRouters.getAllVendorDetailsPage)
 
 
   router.post('/api/upload', uploadRouter.upload)

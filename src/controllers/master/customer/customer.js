@@ -23,7 +23,7 @@ const createCustomer = async (req, res, next) => {
         const customerCreate = await new customerModel(req.body);
         const result = customerCreate.save();
         if (result) {
-            if (req.body.vehicleDetails.length !== 0) {
+            if (req.body.vechicleDetails.length !== 0) {
                 req.body.customerId = req.body.customerId
                 customerVehicleControllers.createCustomerVehicleDetails(req, res, next)
 
@@ -55,14 +55,14 @@ const getAllCustomerDetails = async (req, res, next) => {
     try {
         const customerDetails = await customerModel.find({ isActive: 'O' }).sort('-1').lean();
         if (customerDetails) {
-            const customerVehicleDetails = await customerVehicleModel.find({}).sort('-1').lean();
-            const productSalesDetails = await customerNomineeModel.find({}).sort('-1').lean();
+            const customervechicleDetails = await customerVehicleModel.find({}).sort('-1').lean();
+            const customerNomineeDetails = await customerNomineeModel.find({}).sort('-1').lean();
 
             customerDetails.forEach((obj1) => {
-                const matchingVehicleData = customerVehicleDetails.find((obj2) => obj2.customerId === obj1.customerId);
-                const matchingNomineeDetails = productSalesDetails.find((obj2) => obj2.customerId === obj1.customerId);
+                const matchingVehicleData = customervechicleDetails.find((obj2) => obj2.customerId === obj1.customerId);
+                const matchingNomineeDetails = customerNomineeDetails.find((obj2) => obj2.customerId === obj1.customerId);
                 if (matchingVehicleData || matchingNomineeDetails) {
-                    obj1.vehicleDetails = matchingVehicleData.vehicleDetails;
+                    obj1.vechicleDetails = matchingVehicleData.vechicleDetails;
                     obj1.nomineeDetails = matchingNomineeDetails.nomineeDetails;
                 }
             });
@@ -99,9 +99,9 @@ const singleCustomerDetails = async (req, res, next) => {
         }
         const customerDetails = await customerModel.findById({ _id: req.params.id }).lean();
         if (customerDetails) {
-            const customerVehicleDetails = await customerVehicleModel.find({ customerId: customerDetails.customerId }).lean();
-            customerVehicleDetails.map(el => {
-                customerDetails.vehicleDetails = el.vehicleDetails
+            const customervechicleDetails = await customerVehicleModel.find({ customerId: customerDetails.customerId }).lean();
+            customervechicleDetails.map(el => {
+                customerDetails.vechicleDetails = el.vechicleDetails
             })
             const productSlaesDetails = await customerNomineeModel.find({ customerId: customerDetails.customerId }).lean();
             productSlaesDetails.map(el => {
@@ -137,9 +137,9 @@ const updatedCustomerDetails = async (req, res, next) => {
                 message: 'Customer Id missing',
             })
         }
-        const productDetials = await customerModel.findByIdAndUpdate({ _id: req.params.id }, req.body, { new: true }).exec();
-        if (productDetials) {
-            if (req.body.vehicleDetails.length !== 0) {
+        const customerDetials = await customerModel.findByIdAndUpdate({ _id: req.params.id }, req.body, { new: true }).exec();
+        if (customerDetials) {
+            if (req.body.vechicleDetails.length !== 0) {
                 req.body.customerId = req.body.customerId
                 customerVehicleControllers.updatedCustomerVehicleDetails(req, res, next)
             } else {

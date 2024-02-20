@@ -21,6 +21,9 @@ const CustomerMasterSchema = new Schema({
         type: String,
         required: true,
     },
+    filePath:{
+        type:String
+    },
 
     country: {
         type: String,

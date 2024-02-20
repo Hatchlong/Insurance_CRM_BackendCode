@@ -10,7 +10,7 @@ const createCustomerVehicleDetails = async (req, res, next) => {
     try {
         const requestBody = {
             customerId: req.body.customerId,
-            vehicleDetails: req.body.vehicleDetails
+            vechicleDetails: req.body.vechicleDetails
         }
         const customerVehicleCreated = await new customerVehicleModel(requestBody);
         const result = customerVehicleCreated.save()
@@ -53,7 +53,7 @@ const updatedCustomerVehicleDetails = async (req, res, next) => {
         if (findDetails) {
             const requestBody = {
                 customerId: req.body.customerId,
-                vehicleDetails: req.body.vehicleDetails
+                vechicleDetails: req.body.vechicleDetails
             }
             const customerVehicleDetails = await customerVehicleModel.findByIdAndUpdate({ _id: findDetails._id.toString() }, requestBody, { new: true }).exec();
             if (customerVehicleDetails) {
@@ -76,7 +76,7 @@ const updatedCustomerVehicleDetails = async (req, res, next) => {
         } else {
             const requestBody = {
                 customerId: req.body.customerId,
-                vehicleDetails: req.body.vehicleDetails
+                vechicleDetails: req.body.vechicleDetails
             }
             const customerVehicleCreated = await new customerVehicleModel(requestBody);
             const result = customerVehicleCreated.save()
@@ -116,12 +116,12 @@ const createCustomerVehicleDetailsMany = async (req, res, next) => {
         const vehicleDataArray = []
         const data = req.reqPlantData;
         for (let i = 0; i < data.length; i++) {
-            for (let j = 0; j < data[i].vehicleDetails.length; j++) {
+            for (let j = 0; j < data[i].vechicleDetails.length; j++) {
 
-                data[i].vehicleDetails[j].isLock = false;
-                data[i].vehicleDetails[j].isActive = 'O';
+                data[i].vechicleDetails[j].isLock = false;
+                data[i].vechicleDetails[j].isActive = 'O';
                 
-                var changeValue = await areArraysEqual(data[i].vehicleDetails[j], i,j, req, res, next);
+                var changeValue = await areArraysEqual(data[i].vechicleDetails[j], i,j, req, res, next);
                 if (changeValue) {
                     vehicleDataArray.push(changeValue)
                 }
@@ -131,7 +131,7 @@ const createCustomerVehicleDetailsMany = async (req, res, next) => {
         vehicleDataArray.map((el, i) => {
             const reqdata = {
                 customerId: el.customerId,
-                vehicleDetails: vehicleDataArray.filter((el) => el.customerId === vehicleDataArray[i].customerId)
+                vechicleDetails: vehicleDataArray.filter((el) => el.customerId === vehicleDataArray[i].customerId)
             };
             const findDetails = reqBody.find((el) => el.customerId === reqdata.customerId);
             if (!findDetails) {
@@ -142,7 +142,7 @@ const createCustomerVehicleDetailsMany = async (req, res, next) => {
             return
         }
         reqBody.map((el) => {
-            el.vehicleDetails.map((ele) => {
+            el.vechicleDetails.map((ele) => {
                 delete ele.customerId
             })
         })
